@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Eye, EyeOff, User, Lock } from "lucide-react";
-
+import { useDispatch } from 'react-redux';
+import { login } from '../features/authSlice';
+import { useNavigate } from "react-router-dom";
 // Mock Link component (replace with react-router-dom Link in actual project)
 const Link = ({ to, children, className, ...props }) => (
   <button
@@ -13,6 +15,8 @@ const Link = ({ to, children, className, ...props }) => (
 );
 
 const LoginPage = () => {
+   const dispatch = useDispatch()
+   const navigate=useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -68,10 +72,8 @@ const LoginPage = () => {
     setIsLoading(true);
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log("Login successful:", formData);
-      alert(`Welcome ${formData.username}! Login successful.`);
+      dispatch(login({ user: formData, token: "fghbjk8u9765trfgh" }));
+      navigate("/home");
     } catch (error) {
       console.error("Login failed:", error);
     } finally {
